@@ -10,17 +10,18 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            currencies: [],
             loading: true
         }
     }
 
     componentDidMount() {
+        //make the request to retrieve data
         try {
             axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=EUR&order=market_cap_desc&per_page=10&page=1&sparkline=false")
                 .then((response) => {
                     if(response.status === 200) {
-                        this.setState({ data: response.data, loading: false })
+                        this.setState({ currencies: response.data, loading: false })
                     }
                 })
         } catch(e) {
@@ -29,20 +30,20 @@ class App extends Component {
         }
     }
 
-    renderContent = (data) => {
-        if(data.length > 0) {
-            return <CurrencyTable data={this.state.data} />
+    renderContent = (currencies) => {
+        if(currencies.length > 0) {
+            return <CurrencyTable currencies={currencies} />
         }
         return <div> No data is available</div>
     }
 
     render() {
-        const { data, loading } = this.state;
+        const { currencies, loading } = this.state;
         return (
             <div className="App">
                 {loading ?
                     <CircularProgress color="primary" thickness={1.5} size={80} /> :
-                    this.renderContent(data)}
+                    this.renderContent(currencies)}
             </div>
         )
     }
