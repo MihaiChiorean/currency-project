@@ -48,12 +48,12 @@ const useStyles = makeStyles({
 });
 
 
-// render table's columns
+// render table's header columns
 function renderHeaderColumn(column, classes) {
     return <TableCell className={classes.tableCell} id={column}>{columnLabels[column]}</TableCell>
 }
 
-// render table's rows
+// render table's body rows
 function renderBodyColumnForEachRow(column, currency, classes) {
     if(column === "image") {
         return (
