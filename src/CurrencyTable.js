@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -50,19 +51,19 @@ const useStyles = makeStyles({
 
 // render table's header columns
 function renderHeaderColumn(column, classes) {
-    return <TableCell className={classes.tableCell} id={column}>{columnLabels[column]}</TableCell>
+    return <TableCell className={classes.tableCell} id={column} key={column}>{columnLabels[column]}</TableCell>
 }
 
 // render table's body rows
 function renderBodyColumnForEachRow(column, currency, classes) {
     if(column === "image") {
         return (
-            <TableCell id={`${currency.symbol}-${column}`} className={classes.tableCell} component="th" scope="row">
+            <TableCell key={column} id={`${currency.symbol}-${column}`} className={classes.tableCell} component="th" scope="row">
                 <img id={`${currency.symbol}-${column}-img`} src={currency.image} alt={currency.name}/>
             </TableCell>
         )
     }
-    return <TableCell className={classes.tableCell} id={`${currency.symbol}-${column}`}>{currency[column]}</TableCell>
+    return <TableCell key={column} className={classes.tableCell} id={`${currency.symbol}-${column}`}>{currency[column]}</TableCell>
 }
 
 // Table's columns are configurable.
@@ -146,4 +147,12 @@ export default function CurrencyTable(props) {
         </React.Fragment>
 
     );
+}
+
+CurrencyTable.propTypes = {
+    currencies: PropTypes.array
+}
+
+CurrencyTable.defaultProps = {
+    currencies: []
 }
